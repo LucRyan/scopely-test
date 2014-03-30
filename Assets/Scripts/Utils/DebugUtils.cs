@@ -7,6 +7,7 @@ using UnityEngine;
 public class DebugUtils : MonoBehaviour
 {
 	#region Unity Lifecycle
+	[Conditional("DEBUG")]
 	void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.T)) {
@@ -19,6 +20,7 @@ public class DebugUtils : MonoBehaviour
 	}
 	#endregion
 	
+	#region Debug Helper
     [Conditional("DEBUG")]
     public static void Assert(bool condition, String messages)
     {
@@ -67,6 +69,7 @@ public class DebugUtils : MonoBehaviour
 			
 		}
 	}
+	#endregion
 	
 
 }

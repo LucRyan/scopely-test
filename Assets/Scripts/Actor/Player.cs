@@ -55,9 +55,6 @@ public class Player : MonoBehaviour, IDamageable {
 		// Set default render settings
 		DefaultFog();
 		DefaultClipping();
-
-		// Fall to ground if Camera was placed too high
-		Move(Vector3.up, 0.0f);
 	}
 
 	void Update () {
@@ -65,8 +62,7 @@ public class Player : MonoBehaviour, IDamageable {
 		_calmCooldown -= Time.deltaTime;
 		
 		// Let the player look, shoot, and move
-		UpdateLookRotation ();
-		UpdatePosition ();
+		isMoving();
 		UpdateCrosshairAccuracyByMoving();
 	}
 	#endregion
@@ -90,47 +86,27 @@ public class Player : MonoBehaviour, IDamageable {
 	#endregion
 
 	#region Move Helpers
-	private void Move(Vector3 direction, float speed){
-		if (Movement.Move(this.gameObject, direction, speed)){
-			this.transform.position += new Vector3(0, PLAYER_HEIGHT, 0);
+	private bool isMoving()
+	{
+		if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || 
+		   Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) ||
+		   Input.GetKey(KeyCode.Space))
+		{
+			return true;	
 		}
+		else
+		{
+			return false;	
+		}	
 	}
-	private void UpdatePosition(){
-		
-		// Check keyboard input
-		Vector3 moveDirection = new Vector3();
-		if (Input.GetKey (KeyCode.W)) {
-			CrosshairMgr.ChangeCrosshairAccuracy("less");
-			moveDirection += _cam.transform.forward;
-		}
-		if (Input.GetKey (KeyCode.S)) {
-			moveDirection -= _cam.transform.forward;
-		}
-		if (Input.GetKey (KeyCode.D)) {
-			moveDirection += _cam.transform.right;
-		}
-		if (Input.GetKey (KeyCode.A)) {
-			moveDirection -= _cam.transform.right;
-		}
-		if (moveDirection.magnitude > 0.0f){
-			moveDirection.Normalize();
-			Move(moveDirection, MOVE_SPEED);
-			CrosshairMgr.ChangeCrosshairAccuracy("less");
-		}
-	}
-	private void UpdateLookRotation(){
-		
-		// Determine rotation based on mouse movement
-		_rotX = (_rotX + (Input.GetAxis("Mouse X") * SENSITIVITY_X)) % 360;
-		_rotY = Mathf.Clamp(_rotY + (Input.GetAxis("Mouse Y") * SENSITIVITY_Y), -MAX_VERTICAL_LOOK_DEGREES, MAX_VERTICAL_LOOK_DEGREES);
-		
-		// Update camera orientation
-		Quaternion xQuaternion = Quaternion.AngleAxis(_rotX, Vector3.up);
-		Quaternion yQuaternion = Quaternion.AngleAxis(_rotY, Vector3.left);
-		_cam.transform.localRotation = _initialCameraRot * xQuaternion * yQuaternion;
-	}
+	
 	private void UpdateCrosshairAccuracyByMoving()
 	{
+		if(isMoving())
+		{
+			CrosshairMgr.ChangeCrosshairAccuracy("less");
+		}
+		
 		// Early return if we are cooling down
 		if (_calmCooldown < 0.0f) {
 			_calmCooldown = CALM_COOLDOWN;

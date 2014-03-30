@@ -5,7 +5,8 @@ public class PlayerWeapon : MonoBehaviour {
 
 	public const float IMPACT_OFFSET = 0.01f;
 	public const float SHOOT_COOLDOWN = 0.15f;
-	public const float ACCURACY_DELTA = 3.0f;
+	public const float ACCURACY_DELTA = 2.0f;
+	public const int WEAPON_POWER = 5;
 
 	public AudioClip shootSound;
 	public GameObject bulletImpact;
@@ -75,7 +76,7 @@ public class PlayerWeapon : MonoBehaviour {
 		if (hit.collider.gameObject.tag == "Enemy") {
 			try{
 				Zunny z = hit.collider.gameObject.GetComponent<Zunny>();
-				z.DamageTaken(5,-hit.normal, hit.point);
+				z.DamageTaken(WEAPON_POWER,-hit.normal, hit.point);
 				hitEnemy = true;
 			}catch{
 				Debug.LogError("PlayerWeapon: Shoot: not an enemy");

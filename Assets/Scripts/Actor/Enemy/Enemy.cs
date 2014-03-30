@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour{
 	
-	public const float MOVE_SPEED = 32.0f;
+	public const float MOVE_SPEED = 3.0f;
 	public const float CORPSE_REMOVAL_DELAY = 5.0f;
 	
 	protected Player _player;
@@ -82,17 +82,15 @@ public class Enemy : MonoBehaviour{
 		Movement.Move(this.gameObject, directionToPlayer, MOVE_SPEED);
 	}
 	
-	private void Ragdoll(){
+	protected void Ragdoll(){
 		this.rigidbody.constraints = RigidbodyConstraints.None;
 		this.rigidbody.useGravity = true;
 		this.rigidbody.drag = 0.1f;
 	}
 	protected void AnimateBulletImpact(Vector3 impactDirection, Vector3 impactPosition){
-		Ragdoll();
-		this.rigidbody.AddForceAtPosition(impactDirection * 3000, impactPosition);
+		this.rigidbody.AddForceAtPosition(impactDirection * 30, impactPosition);
 	}
 	protected void AnimateExplosion(Vector3 center, float force, float radius){
-		Ragdoll();
 		this.rigidbody.AddExplosionForce(force, center, radius);
 	}
 	#endregion

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Spawner : MonoBehaviour {
 
-	public const int MAX_ZUNNIES = 30;
+	public const int MAX_ZUNNIES = 10;
 	public const float SPAWN_COOLDOWN = 1.0f;
 	public const float SPAWN_RADIUS = 128.0f;
 

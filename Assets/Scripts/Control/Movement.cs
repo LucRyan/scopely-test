@@ -4,7 +4,7 @@ using System.Collections;
 public class Movement {
 	
 	public const int TERRAIN_MASK = (1 << 8);
-	public const float LARGE = 16192.0f;
+	public const float LARGE = 161920.0f;
 
 	private static float GetSpeedScale(Vector3 startPosition, Vector3 direction, int layerMask){
 

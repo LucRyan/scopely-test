@@ -5,7 +5,7 @@ public class Zunny : Enemy, IDamageable
 {
 	//
 	public const float BITE_COOLDOWN = 3f;
-	public const float BITE_RADIUS = 10.0f; 
+	public const float BITE_RADIUS = 3.0f;  
 	//
 	public GameObject fireExplosion;
 	//
@@ -20,6 +20,7 @@ public class Zunny : Enemy, IDamageable
 	#region Unity Lifecycle
 	override protected void Awake(){
 		base.Awake();
+		//MOVE_SPEED = 10.0f;
 	}
 	override protected  void Start () {
 		base.Start();
@@ -45,6 +46,11 @@ public class Zunny : Enemy, IDamageable
 		AnimateBulletImpact(impactDirection, impactPosition);
 		if(Health <= 0)
 		{
+			if(!_dead)
+			{
+				ScoreMgr.UpdateKills(ScoreMgr.EnemyType.Creeper, 1);
+			}
+			Ragdoll();
 			_dead = true;
 		}
 	}
