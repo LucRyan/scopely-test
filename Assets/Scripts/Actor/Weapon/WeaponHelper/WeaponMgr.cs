@@ -22,11 +22,11 @@ public class WeaponMgr : MonoBehaviour {
 	
 	void Initial()
 	{
-		_weapon = WeaponFactory.Instance.CreateWeapon(WeaponFactory.WeaponType.AK47);
-		_weaponGo = WeaponFactory.Instance.GetWeaponGameObject(WeaponFactory.WeaponType.AK47);
+//		_weapon = WeaponFactory.Instance.CreateWeapon(WeaponFactory.WeaponType.AK47);
+//		_weaponGo = WeaponFactory.Instance.GetWeaponGameObject(WeaponFactory.WeaponType.AK47);
 		
-//		_weapon = WeaponFactory.Instance.CreateWeapon(WeaponFactory.WeaponType.Grenade);
-//		_weaponGo = WeaponFactory.Instance.GetWeaponGameObject(WeaponFactory.WeaponType.Grenade);
+		_weapon = WeaponFactory.Instance.CreateWeapon(WeaponFactory.WeaponType.Grenade);
+		_weaponGo = WeaponFactory.Instance.GetWeaponGameObject(WeaponFactory.WeaponType.Grenade);
 		
 	}
 	
