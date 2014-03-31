@@ -67,7 +67,7 @@ public class Movement {
 			// If there is a RigidBody attached to this object, offset by height
 			Vector3 newPos = hit.point;
 			float height = gameObject.collider.bounds.max.y - gameObject.collider.bounds.min.y;
-			newPos += new Vector3(0f, height * 0.55f, 0f);
+			newPos += new Vector3(0f, height * 0.3f, 0f);
 			gameObject.transform.position = newPos;
 		}
 

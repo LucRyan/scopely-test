@@ -1,17 +1,15 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
-
 [RequireComponent (typeof(CapsuleCollider))]
-public class GrenadeProperty : MonoBehaviour
-{
+public class Rocket : MonoBehaviour {
+	
 	private bool _onHand = true;
 	private bool _exploded = false;
-	private bool _exploding = false;
 	private CapsuleCollider _cpCollider;
 	private GameObject _bloodSpray;
 	private GameObject _explosionEffect;
-	private const int WEAPON_POWER = 10;
+	private const int WEAPON_POWER = 50;
 	
 	public bool OnHand{
 		set{ _onHand = value; }	
@@ -24,43 +22,35 @@ public class GrenadeProperty : MonoBehaviour
 		_bloodSpray = Resources.Load("Prefabs/Effect/BloodSpray") as GameObject;
 		_explosionEffect = Resources.Load("Prefabs/Effect/FireExplosion") as GameObject;
 	}
-	
-	void Update(){
-		if(!_onHand && !_exploding)
-		{
-			StartCoroutine(Explode());
-		}
-	}
 	#endregion
 	
 	IEnumerator Explode(){
-		_exploding = true;
 		
-		yield return new WaitForSeconds(2f);
+		_exploded = true;
 		Debug.Log ("Exploded");
 		//Explode
-		_cpCollider.radius *= 5f;
-		_cpCollider.height *= 5f;
+		_cpCollider.radius *= 3f;
+		_cpCollider.height *= 3f;
+		this.rigidbody.isKinematic = true;
 		EffectCreator.Instance.Effect(this.transform.position, _explosionEffect);
-		_exploded = true;
-		
-		yield return new WaitForSeconds(1f);
+
+		yield return new WaitForSeconds(0.4f);
 		Destroy(this.gameObject);
 		Destroy(this);
 	}
 	
 	void OnCollisionEnter(Collision collision) {
  
-		if(!_onHand && _exploded)
+		if(!_onHand && !_exploded)
 		{
 	        ContactPoint contact  = collision.contacts[0];
 			
-	
+			StartCoroutine(Explode());
 			//here you can set a tag so when your missile hits different stuff  
 	        if (collision.gameObject.tag == "Enemy")
 	        {
 				try{
-					Zunny z = collision.gameObject.GetComponent<Zunny>();
+					Creeper z = collision.gameObject.GetComponent<Creeper>();
 					z.DamageTaken(WEAPON_POWER, -contact.normal, contact.point);
 					EffectCreator.Instance.Effect(contact.point, _bloodSpray);
 				}catch{
@@ -71,8 +61,4 @@ public class GrenadeProperty : MonoBehaviour
 	        }
 		}
 	}
- 
-
 }
-
-

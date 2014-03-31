@@ -9,9 +9,11 @@ public class Enemy : MonoBehaviour{
 	protected Player player;
 	protected bool dead;
 	protected float moveSpeed;
+	protected Animator animator;
 	
 	private int _updates;
 	private float _timeDead;
+	
 	
 	#region Unity Lifecycle
 	protected virtual void Awake(){
@@ -31,7 +33,8 @@ public class Enemy : MonoBehaviour{
 			Debug.LogError("Enemy: Start: cant find player");
 			return;
 		}
-
+		animator = this.gameObject.GetComponent<Animator>();
+		
 		// Make sure this doesn't spawn in the air
 		MoveTowardsPlayer();
 	}
@@ -83,7 +86,9 @@ public class Enemy : MonoBehaviour{
 		// Chase after player
 		Vector3 directionToPlayer = player.transform.position - this.transform.position;
 		directionToPlayer.Normalize();
+		this.transform.LookAt(player.transform);
 		Movement.Move(this.gameObject, directionToPlayer, moveSpeed);
+		
 	}
 	
 	protected void Ragdoll(){

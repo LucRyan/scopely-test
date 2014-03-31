@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Zunny : Enemy, IDamageable
+public class Creeper : Enemy, IDamageable
 {
 	//
 	public const float BITE_COOLDOWN = 3f;
@@ -49,7 +49,10 @@ public class Zunny : Enemy, IDamageable
 			if(!dead)
 			{
 				ScoreMgr.UpdateKills(ScoreMgr.EnemyType.Creeper, 1);
+				//I LOVE PHYSICS!!
+				animator.enabled = false;
 			}
+			Debug.Log("dead");
 			Ragdoll();
 			dead = true;
 		}

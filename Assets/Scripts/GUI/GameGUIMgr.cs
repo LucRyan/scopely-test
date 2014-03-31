@@ -81,12 +81,36 @@ public class GameGUIMgr : MonoBehaviour {
 		}
 	}
 	
+	public static void RestoreHeart()
+	{
+		for(int i = 1; i <= 10; i++)
+		{		
+			if(!_heartStack.Contains(GameObject.Find("Heart" + i)))
+			{
+				if(_isHalfExist && !_isWholeExist)
+				{
+					AppearAnimation(_heartStack.Peek().transform.FindChild("Whole").gameObject);
+				}
+				GameObject heart = GameObject.Find("Heart" + i);
+				DebugUtils.Assert(heart != null, "RestoreHeart: heart = null");
+				AppearAnimation(heart.transform.FindChild("Whole").gameObject);
+				AppearAnimation(heart.transform.FindChild("Half").gameObject);
+				
+				_heartStack.Push(heart);
+			}
+		}
+		 _isWholeExist = true;
+		 _isHalfExist = true;
+		
+	}
+	
 	private static void DisappearAnimation(GameObject go)
 	{
 		TweenScale heartTS = TweenScale.Begin<TweenScale>(go, 1f);;
 		heartTS.from = Vector3.one;
 		heartTS.to = new Vector3(1.5f, 1.5f, 1.5f);
-		heartTS.Play();;
+		heartTS.delay = 0f;
+		heartTS.Play();
 		
 		TweenAlpha heartAL = TweenAlpha.Begin<TweenAlpha>(go, 0.5f);
 		heartAL.from = 1f;
@@ -94,6 +118,22 @@ public class GameGUIMgr : MonoBehaviour {
 		heartAL.delay = 1f;
 		heartAL.Play();
 	}
+	
+	private static void AppearAnimation(GameObject go)
+	{
+		TweenScale heartTS = TweenScale.Begin<TweenScale>(go, 0.5f);;
+		heartTS.from = new Vector3(1.5f, 1.5f, 1.5f);
+		heartTS.to = Vector3.one;
+		heartTS.delay = 1f;
+		heartTS.Play();
+		
+		TweenAlpha heartAL = TweenAlpha.Begin<TweenAlpha>(go, 1f);
+		heartAL.from = 0f;
+		heartAL.to = 1f;
+		heartAL.delay = 0f;
+		heartAL.Play();
+	}
+	
 	#endregion
 	
 	#region WeaponGUI Manager
@@ -101,12 +141,13 @@ public class GameGUIMgr : MonoBehaviour {
 	{
 		_weaponGUI = GameObject.Find("WeaponBase");
 		_currentWeapon = "LandMine";
-		UpdateAmmo(3);
+		UpdateAmmo(10);
 		_currentWeapon = "Grenade";
-		UpdateAmmo(6);
+		UpdateAmmo(15);
 		_currentWeapon = "RocketLauncher";
-		UpdateAmmo(12);
+		UpdateAmmo(15);
 		_currentWeapon = "AK47";
+		UpdateAmmo(60);
 	}
 	
 	public static void MoveSelectionRect(int num)

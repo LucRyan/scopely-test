@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AK47 : PlayerWeapon
 {
-	private const int INITIAL_AMMO = 90;
+	private const int INITIAL_AMMO = 60;
 	public GameObject _go;
 	
 	private static AK47 _instance;
@@ -23,10 +23,12 @@ public class AK47 : PlayerWeapon
 	     return _instance;
 	  }
 	}
+	private AK47() {}
 	
-	
-	private AK47() 
+	override public void Initial()
 	{
+		base.Initial();
+
 		//Load assets
 		shootSound = Resources.Load("Sounds/CarbineShoot") as AudioClip;
 		bulletImpact = Resources.Load("Prefabs/Effect/BulletImpact") as GameObject;
@@ -43,7 +45,6 @@ public class AK47 : PlayerWeapon
 		//Check if loaded.
 		if (shootSound == null || bulletImpact == null|| bloodSpray == null)
 			Debug.Log("F*******ck!");
-		
 	}
 	
 	override public void Tick () {
@@ -57,7 +58,8 @@ public class AK47 : PlayerWeapon
 		if(Input.GetKeyDown(KeyCode.R))
 		{
 			_go.animation.Play("Reload");
-			
+			shootCooldown = 3f;
+			UpdateAmmo(60);
 			AudioSource.PlayClipAtPoint(_reloadSound, cam.transform.position);
 
 		}

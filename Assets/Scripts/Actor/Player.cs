@@ -19,13 +19,16 @@ public class Player : MonoBehaviour, IDamageable {
 	public const float PLAYER_HEIGHT = 16.0f;
 	public const float CALM_COOLDOWN = 0.3f;
 	
+	// Player Attributes
+	public GameObject playerbloodSpray;
+	public AudioClip walkingSound;
+	
+	private AudioSource _walkingAS;
 	private Camera _cam;
 	private bool _dead = false;
 	private float _calmCooldown;
 	private EndGameMgr _gameoverMgr;
 	
-	// Player Attributes
-	public GameObject playerbloodSpray;
 	private int _health = 100;
 	public int Health  // read-write instance property
     {
@@ -57,15 +60,18 @@ public class Player : MonoBehaviour, IDamageable {
 		if (_gameoverMgr == null){
 			Debug.LogError("Player: Start: cant find _gameoverMgr");
 		}
+		
+		//Set audio walking
+		_walkingAS = this.gameObject.AddComponent<AudioSource>();
+		_walkingAS.clip = walkingSound;
 	}
 
 	void Update () {
 		
 		_calmCooldown -= Time.deltaTime;
 		
-		// Let the player look, shoot, and move
-		isMoving();
 		UpdateCrosshairAccuracyByMoving();
+		//playWalkingSound();
 		
 		if(_dead)
 		{
@@ -106,6 +112,7 @@ public class Player : MonoBehaviour, IDamageable {
 			return false;	
 		}	
 	}
+
 	
 	private void UpdateCrosshairAccuracyByMoving()
 	{
@@ -122,6 +129,32 @@ public class Player : MonoBehaviour, IDamageable {
 		}
 		
 		CrosshairMgr.ChangeCrosshairAccuracy("more");
+	}
+	
+		
+	private bool isWalking()
+	{
+		if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || 
+		   Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) )
+		{
+			return true;	
+		}
+		else
+		{
+			return false;	
+		}	
+	}
+	
+	private void playWalkingSound()
+	{
+		if(isWalking() && !_walkingAS.isPlaying)
+		{
+			_walkingAS.Play();
+		}
+		else
+		{
+			_walkingAS.Pause();
+		}
 	}
 	#endregion
 	

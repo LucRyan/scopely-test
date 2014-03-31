@@ -17,8 +17,7 @@ public class PlayerWeapon{
 	protected float shootCooldown;
 	
 	#region public helper
-	public void Initial () {
-		
+	public virtual void Initial () {		
 		// Get reference to Camera
 		cam = Camera.main;
 		if (cam == null){
@@ -84,7 +83,7 @@ public class PlayerWeapon{
 		bool hitEnemy = false;
 		if (hit.collider.gameObject.tag == "Enemy") {
 			try{
-				Zunny z = hit.collider.gameObject.GetComponent<Zunny>();
+				Creeper z = hit.collider.gameObject.GetComponent<Creeper>();
 				z.DamageTaken(WEAPON_POWER,-hit.normal, hit.point);
 				hitEnemy = true;
 			}catch{

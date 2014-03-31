@@ -35,8 +35,12 @@ public class WeaponFactory
 		{
 		case WeaponType.AK47:
 			return AK47.Instance;
+		case WeaponType.RocketLauncher:
+			return RocketLauncher.Instance;
 		case WeaponType.Grenade:
-			return Grenade.Instance;
+			return GrenadeLauncher.Instance;
+		case WeaponType.LandMine:
+			return LandmineLauncher.Instance;
 		default:
 			return null;
 		}
@@ -48,8 +52,12 @@ public class WeaponFactory
 		{
 		case WeaponType.AK47:
 			return AK47.Instance._go;
+		case WeaponType.RocketLauncher:
+			return RocketLauncher.Instance._go;
 		case WeaponType.Grenade:
-			return Grenade.Instance._go;
+			return GrenadeLauncher.Instance._go;
+		case WeaponType.LandMine:
+			return LandmineLauncher.Instance._go;
 		default:
 			return null;
 		}

@@ -11,7 +11,8 @@ public class DebugUtils : MonoBehaviour
 	void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.T)) {
-			GameGUIMgr.HeartHit();
+			//GameGUIMgr.HeartHit();
+			GameGUIMgr.RestoreHeart();
 		}	
 		UpdateCrosshair();
 		//UpdateSelection();
