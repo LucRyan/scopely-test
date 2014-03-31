@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class World : MonoBehaviour {
 	
@@ -14,6 +15,8 @@ public class World : MonoBehaviour {
 	#region Unity Lifecycle
 	// Use this for initialization
 	void Awake () {
+		Chunk.chunks = new List<Chunk>();
+		Time.timeScale = 1;
 		currentWorld = this;
 		if (seed == 0)
 			seed = Random.Range(0, int.MaxValue);
@@ -21,11 +24,11 @@ public class World : MonoBehaviour {
 	
 	void Start()
 	{
-		CreateMesh();	
+		StartCoroutine(CreateMesh());	
 	}
 	#endregion
 
-	void CreateMesh()
+	IEnumerator CreateMesh()
 	{		
 		for (float x = transform.position.x - viewRange; x < transform.position.x + viewRange * 5; x+= chunkWidth)
 		{
@@ -41,7 +44,9 @@ public class World : MonoBehaviour {
 				
 				chunk = (Chunk)Instantiate(chunkFab, pos, Quaternion.identity);	
 			}
-		}	
+		}
+		
+		yield return null;
 	}
 }
 

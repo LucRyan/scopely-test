@@ -14,7 +14,7 @@ public class GameGUIMgr : MonoBehaviour {
 	static bool _isHalfExist = true;
 	
 	//Remeber weapon status
-	static string _currentWeapon = "AK47";
+	static string _currentWeapon;
 	public static string CurrentWeapon
 	{
 		get{return _currentWeapon;}
@@ -100,6 +100,13 @@ public class GameGUIMgr : MonoBehaviour {
 	void initalWeaponGUI()
 	{
 		_weaponGUI = GameObject.Find("WeaponBase");
+		_currentWeapon = "LandMine";
+		UpdateAmmo(3);
+		_currentWeapon = "Grenade";
+		UpdateAmmo(6);
+		_currentWeapon = "RocketLauncher";
+		UpdateAmmo(12);
+		_currentWeapon = "AK47";
 	}
 	
 	public static void MoveSelectionRect(int num)

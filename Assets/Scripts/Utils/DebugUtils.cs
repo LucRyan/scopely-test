@@ -14,7 +14,7 @@ public class DebugUtils : MonoBehaviour
 			GameGUIMgr.HeartHit();
 		}	
 		UpdateCrosshair();
-		UpdateSelection();
+		//UpdateSelection();
 		UpdateWeaponAmmo();
 		
 	}

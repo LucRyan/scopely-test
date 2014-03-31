@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 43e6386b7af382f4099882ea8b1549a6
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - shootSound: {fileID: 8300000, guid: 60b3df0afd5104a0086fbca0977ce29e, type: 3}
+  - bulletImpact: {fileID: 100000, guid: cbf710050db744fbaa895101f5abf269, type: 2}
+  - bloodSpray: {fileID: 100000, guid: 41881676956084881958fba36fa53b88, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 

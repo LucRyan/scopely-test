@@ -8,7 +8,7 @@ using SimplexNoise;
 [RequireComponent (typeof(MeshFilter))]
 public class Chunk : MonoBehaviour {
 	
-	public static List<Chunk> chunks = new List<Chunk>();
+	public static List<Chunk> chunks;
 	public static int width {
 		get { return World.currentWorld.chunkWidth; }
 	}
@@ -24,7 +24,11 @@ public class Chunk : MonoBehaviour {
 	protected MeshRenderer meshRenderer;
 	protected MeshCollider meshCollider;
 	protected MeshFilter meshFilter;
-
+	
+	void Awake()
+	{
+			
+	}
 	// Use this for initialization
 	void Start () {
 		
@@ -45,7 +49,6 @@ public class Chunk : MonoBehaviour {
 	void Update () {
 	
 	}
-	
 	public static byte GetTheoreticalByte(Vector3 pos) {
 		Random.seed = World.currentWorld.seed;
 		

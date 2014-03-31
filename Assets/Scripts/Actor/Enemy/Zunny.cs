@@ -20,11 +20,11 @@ public class Zunny : Enemy, IDamageable
 	#region Unity Lifecycle
 	override protected void Awake(){
 		base.Awake();
-		//MOVE_SPEED = 10.0f;
+		
 	}
 	override protected  void Start () {
 		base.Start();
-
+		moveSpeed = 3.0f;
 	}
 
 	override protected void LateUpdate (){
@@ -46,12 +46,12 @@ public class Zunny : Enemy, IDamageable
 		AnimateBulletImpact(impactDirection, impactPosition);
 		if(Health <= 0)
 		{
-			if(!_dead)
+			if(!dead)
 			{
 				ScoreMgr.UpdateKills(ScoreMgr.EnemyType.Creeper, 1);
 			}
 			Ragdoll();
-			_dead = true;
+			dead = true;
 		}
 	}
 	#endregion
@@ -60,7 +60,7 @@ public class Zunny : Enemy, IDamageable
 	void DamagePlayer()
 	{
 		// Early return if there is no player
-		if (_player == null)
+		if (player == null)
 		{
 			return;
 		}
@@ -71,10 +71,10 @@ public class Zunny : Enemy, IDamageable
 			return;
 		}
 		
-		float radius = (_player.transform.position - this.transform.position).magnitude;
+		float radius = (player.transform.position - this.transform.position).magnitude;
 		if (radius < BITE_RADIUS)
 		{
-			if(!_dead)
+			if(!dead)
 			{
 				//Make the explosion impact at the bottom of Zunny.
 				Vector3	impactPosition = this.transform.position;
@@ -83,9 +83,9 @@ public class Zunny : Enemy, IDamageable
 				//Explode(impactPosition, 3000.0f, _explosionRadius);	
 				//EffectCreator.Instance.Effect(impactPosition, fireExplosion);
 				
-				Vector3 hitDirection = _player.transform.position - this.transform.position;
+				Vector3 hitDirection = player.transform.position - this.transform.position;
 				hitDirection.Normalize();
-				_player.DamageTaken(5, hitDirection, _player.transform.position);
+				player.DamageTaken(5, hitDirection, player.transform.position);
 			}
 		}
 	}

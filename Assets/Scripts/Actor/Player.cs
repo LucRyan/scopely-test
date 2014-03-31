@@ -20,9 +20,9 @@ public class Player : MonoBehaviour, IDamageable {
 	public const float CALM_COOLDOWN = 0.3f;
 	
 	private Camera _cam;
-	private float _rotX;
-	private float _rotY;
-	private Quaternion _initialCameraRot;
+	private bool _dead = false;
+	private float _calmCooldown;
+	private EndGameMgr _gameoverMgr;
 	
 	// Player Attributes
 	public GameObject playerbloodSpray;
@@ -32,9 +32,7 @@ public class Player : MonoBehaviour, IDamageable {
         get{return _health;}
         set{_health = value;}
     }
-	private bool _dead = false;
-	private float _calmCooldown;
-	
+
 	
 	#region Unity Lifecycle
 	void Start () {
@@ -46,8 +44,6 @@ public class Player : MonoBehaviour, IDamageable {
 			return;
 		}
 
-		_initialCameraRot = _cam.transform.rotation;
-
 		// Capture the mouse
 		Screen.showCursor = false;
 		Screen.lockCursor = true;
@@ -55,6 +51,12 @@ public class Player : MonoBehaviour, IDamageable {
 		// Set default render settings
 		DefaultFog();
 		DefaultClipping();
+		
+		//Set Gameover Manager
+		_gameoverMgr = (EndGameMgr)GameObject.FindObjectOfType(typeof(EndGameMgr));
+		if (_gameoverMgr == null){
+			Debug.LogError("Player: Start: cant find _gameoverMgr");
+		}
 	}
 
 	void Update () {
@@ -64,6 +66,11 @@ public class Player : MonoBehaviour, IDamageable {
 		// Let the player look, shoot, and move
 		isMoving();
 		UpdateCrosshairAccuracyByMoving();
+		
+		if(_dead)
+		{
+			_gameoverMgr.GameOver();
+		}
 	}
 	#endregion
 
