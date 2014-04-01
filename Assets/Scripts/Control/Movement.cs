@@ -27,7 +27,7 @@ public class Movement {
 		}
 	}
 
-	public static bool Move(GameObject gameObject, Vector3 direction, float speed){
+	public static bool Move(GameObject gameObject, Vector3 direction, float speed, float heightOffset){
 
 		// What 2D direction are we moving in?
 		Vector3 moveDir = new Vector3 (direction.x, 0.0f, direction.z);
@@ -67,7 +67,7 @@ public class Movement {
 			// If there is a RigidBody attached to this object, offset by height
 			Vector3 newPos = hit.point;
 			float height = gameObject.collider.bounds.max.y - gameObject.collider.bounds.min.y;
-			newPos += new Vector3(0f, height * 0.3f, 0f);
+			newPos += new Vector3(0f, height * heightOffset, 0f);
 			gameObject.transform.position = newPos;
 		}
 

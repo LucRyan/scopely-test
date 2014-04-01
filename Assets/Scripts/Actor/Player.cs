@@ -18,6 +18,7 @@ public class Player : MonoBehaviour, IDamageable {
 	public const float MOVE_SPEED = 75.0f;
 	public const float PLAYER_HEIGHT = 16.0f;
 	public const float CALM_COOLDOWN = 0.3f;
+	public const float SOUND_COOLDOWN = 10.0f;
 	
 	// Player Attributes
 	public GameObject playerbloodSpray;
@@ -28,6 +29,7 @@ public class Player : MonoBehaviour, IDamageable {
 	private bool _dead = false;
 	private float _calmCooldown;
 	private EndGameMgr _gameoverMgr;
+	private float _soundCooldown = 0.0f;
 	
 	private int _health = 100;
 	public int Health  // read-write instance property
@@ -69,10 +71,11 @@ public class Player : MonoBehaviour, IDamageable {
 	void Update () {
 		
 		_calmCooldown -= Time.deltaTime;
+		//_soundCooldown -= Time.deltaTime;
 		
 		UpdateCrosshairAccuracyByMoving();
 		//playWalkingSound();
-		
+		FallingTODeath();
 		if(_dead)
 		{
 			_gameoverMgr.GameOver();
@@ -145,8 +148,17 @@ public class Player : MonoBehaviour, IDamageable {
 		}	
 	}
 	
-	private void playWalkingSound()
+	private void FallingTODeath()
 	{
+		if(this.transform.position.y < -20f)
+		{
+			_dead = true;
+		}
+		
+	}
+	
+	private void playWalkingSound()
+	{	
 		if(isWalking() && !_walkingAS.isPlaying)
 		{
 			_walkingAS.Play();

@@ -11,6 +11,11 @@ public class LandmineLauncher : PlayerWeapon {
 	
 	private AudioClip _fireInTheHole;
 	
+	public int InitialAmmo
+	{
+		get{return INITIAL_AMMO;}
+	}
+	
 	#region Singleton
 	private static LandmineLauncher _instance;
 	public static LandmineLauncher Instance

@@ -141,13 +141,13 @@ public class GameGUIMgr : MonoBehaviour {
 	{
 		_weaponGUI = GameObject.Find("WeaponBase");
 		_currentWeapon = "LandMine";
-		UpdateAmmo(10);
+		UpdateAmmo(LandmineLauncher.Instance.InitialAmmo);
 		_currentWeapon = "Grenade";
-		UpdateAmmo(15);
+		UpdateAmmo(GrenadeLauncher.Instance.InitialAmmo);
 		_currentWeapon = "RocketLauncher";
-		UpdateAmmo(15);
+		UpdateAmmo(RocketLauncher.Instance.InitialAmmo);
 		_currentWeapon = "AK47";
-		UpdateAmmo(60);
+		UpdateAmmo(AK47.Instance.InitialAmmo);
 	}
 	
 	public static void MoveSelectionRect(int num)
@@ -206,6 +206,21 @@ public class GameGUIMgr : MonoBehaviour {
 		{
 			ammoLbl.text = num.ToString();
 		}
+		
+	}
+	
+	public static void RefillAmmoGUI()
+	{
+		string tempWeapon = _currentWeapon;
+		_currentWeapon = "LandMine";
+		UpdateAmmo(LandmineLauncher.Instance.InitialAmmo);
+		_currentWeapon = "Grenade";
+		UpdateAmmo(GrenadeLauncher.Instance.InitialAmmo);
+		_currentWeapon = "RocketLauncher";
+		UpdateAmmo(RocketLauncher.Instance.InitialAmmo);
+		_currentWeapon = "AK47";
+		UpdateAmmo(AK47.Instance.InitialAmmo);
+		_currentWeapon = tempWeapon;
 		
 	}
 	#endregion

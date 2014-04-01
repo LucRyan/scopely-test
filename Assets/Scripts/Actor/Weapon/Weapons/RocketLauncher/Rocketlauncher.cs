@@ -11,6 +11,11 @@ public class RocketLauncher : PlayerWeapon {
 	
 	private AudioClip _missileLaunch;
 	
+	public int InitialAmmo
+	{
+		get{return INITIAL_AMMO;}
+	}
+	
 	#region Singleton
 	private static RocketLauncher _instance;
 	public static RocketLauncher Instance
@@ -65,6 +70,5 @@ public class RocketLauncher : PlayerWeapon {
 		//Ammo used
 		UpdateAmmo(--ammo);
 		
-	}
-	
+	}	
 }

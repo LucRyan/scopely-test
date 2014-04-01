@@ -35,6 +35,8 @@ public class ScoreMgr : MonoBehaviour {
 	#region Score Helper
 	private void initialScore()
 	{
+		_creeperCount = 0;
+		_zombieCount = 0;
 		_scoreBoard = this.transform.FindChild("BG").gameObject;
 		NGUITools.SetActiveSelf(_scoreBoard, false);
 		_creeperLbl = _scoreBoard.transform.FindChild("Creeper").transform.FindChild("Amount").gameObject.GetComponent<UILabel>();

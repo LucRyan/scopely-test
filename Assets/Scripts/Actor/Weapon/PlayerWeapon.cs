@@ -83,8 +83,7 @@ public class PlayerWeapon{
 		bool hitEnemy = false;
 		if (hit.collider.gameObject.tag == "Enemy") {
 			try{
-				Creeper z = hit.collider.gameObject.GetComponent<Creeper>();
-				z.DamageTaken(WEAPON_POWER,-hit.normal, hit.point);
+				DetermineEnemy(hit);
 				hitEnemy = true;
 			}catch{
 				Debug.LogError("PlayerWeapon: Shoot: not an enemy");
@@ -103,7 +102,22 @@ public class PlayerWeapon{
 
 	}
 	
-	protected void UpdateAmmo(int num)
+	protected void DetermineEnemy(RaycastHit hit)
+	{
+		IDamageable z;
+		if(hit.collider.gameObject.name == "Creeper(Clone)")
+		{
+			z = hit.collider.gameObject.GetComponent<Creeper>();
+		}
+		else
+		{
+			z = hit.collider.gameObject.GetComponent<Zombie>();
+		}
+		
+		z.DamageTaken(WEAPON_POWER,-hit.normal, hit.point);
+	}
+	
+	public void UpdateAmmo(int num)
 	{
 		ammo = num;
 		GameGUIMgr.UpdateAmmo(num);

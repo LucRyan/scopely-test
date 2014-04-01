@@ -1,20 +1,13 @@
 fileFormatVersion: 2
-guid: d010bc2d57eed094c80fcaa4b563e7dc
+guid: cfa8afee277548e408f03baffe234cbc
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
-    100000: fdg34y
-    100002: gj
-    100004: //RootNode
-    400000: fdg34y
-    400002: gj
-    400004: //RootNode
-    2300000: fdg34y
-    2300002: gj
-    3300000: fdg34y
-    3300002: gj
-    4300000: gj
-    4300002: fdg34y
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Object12
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -34,7 +27,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: .00999999978
+    globalScale: .100000001
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1

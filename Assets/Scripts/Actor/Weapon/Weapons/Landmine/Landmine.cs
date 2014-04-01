@@ -58,8 +58,7 @@ public class Landmine : MonoBehaviour {
 	        if (collision.gameObject.tag == "Enemy")
 	        {
 				try{
-					Creeper z = collision.gameObject.GetComponent<Creeper>();
-					z.DamageTaken(WEAPON_POWER, -contact.normal, contact.point);
+					DetermineEnemy(collision, contact);
 					StartCoroutine(Explode());
 					EffectCreator.Instance.Effect(contact.point, _bloodSpray);
 				}catch{
@@ -69,5 +68,21 @@ public class Landmine : MonoBehaviour {
 	
 	        }
 		}
+	}
+	
+	
+	protected void DetermineEnemy(Collision collision, ContactPoint contact)
+	{
+		IDamageable z;
+		if(collision.gameObject.name == "Creeper(Clone)")
+		{
+			z = collision.gameObject.GetComponent<Creeper>();
+		}
+		else
+		{
+			z = collision.gameObject.GetComponent<Zombie>();
+		}
+		
+		z.DamageTaken(WEAPON_POWER,-contact.normal, contact.point);
 	}
 }

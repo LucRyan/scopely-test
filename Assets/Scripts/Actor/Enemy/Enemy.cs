@@ -6,14 +6,15 @@ public class Enemy : MonoBehaviour{
 	public const float MOVE_SPEED = 1.0f;
 	public const float CORPSE_REMOVAL_DELAY = 5.0f;
 	
+	protected float heightOffset;
 	protected Player player;
 	protected bool dead;
 	protected float moveSpeed;
 	protected Animator animator;
+	protected GameObject healthBar;
 	
 	private int _updates;
 	private float _timeDead;
-	
 	
 	#region Unity Lifecycle
 	protected virtual void Awake(){
@@ -26,13 +27,16 @@ public class Enemy : MonoBehaviour{
 	}
 	protected virtual void Start () {
 		
-		// Get a reference to the Player. So we can chase him
-		_timeDead = Random.value * CORPSE_REMOVAL_DELAY * 0.33f;
+		// Get a reference to the Player. So we can chase him		
 		player = (Player)GameObject.FindObjectOfType(typeof(Player));
 		if (player == null){
 			Debug.LogError("Enemy: Start: cant find player");
 			return;
 		}
+		
+		//Set other reference
+		_timeDead = Random.value * CORPSE_REMOVAL_DELAY * 0.33f;
+		healthBar = this.gameObject.transform.FindChild("HealthBar").gameObject;
 		animator = this.gameObject.GetComponent<Animator>();
 		
 		// Make sure this doesn't spawn in the air
@@ -87,7 +91,7 @@ public class Enemy : MonoBehaviour{
 		Vector3 directionToPlayer = player.transform.position - this.transform.position;
 		directionToPlayer.Normalize();
 		this.transform.LookAt(player.transform);
-		Movement.Move(this.gameObject, directionToPlayer, moveSpeed);
+		Movement.Move(this.gameObject, directionToPlayer, moveSpeed, heightOffset);
 		
 	}
 	

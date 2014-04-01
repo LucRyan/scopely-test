@@ -10,6 +10,11 @@ public class GrenadeLauncher : PlayerWeapon {
 	
 	private AudioClip _fireInTheHole;
 	
+	public int InitialAmmo
+	{
+		get{return INITIAL_AMMO;}
+	}
+	
 	#region Singleton
 	private static GrenadeLauncher _instance;
 	public static GrenadeLauncher Instance

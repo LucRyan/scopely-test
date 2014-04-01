@@ -11,6 +11,10 @@ public class AK47 : PlayerWeapon
 	private GameObject _gunFire;
 	private GameObject _gunPoint;
 	
+	public int InitialAmmo
+	{
+		get{return INITIAL_AMMO;}
+	}
 	
 	public static AK47 Instance
 	{
@@ -25,6 +29,7 @@ public class AK47 : PlayerWeapon
 	}
 	private AK47() {}
 	
+	#region Helper
 	override public void Initial()
 	{
 		base.Initial();
@@ -74,6 +79,7 @@ public class AK47 : PlayerWeapon
 		}
 		EffectCreator.Instance.Effect(_gunPoint.transform.position, _gunFire);
 	}
+	#endregion
 }
 
 

@@ -1,16 +1,19 @@
 using UnityEngine;
 using System.Collections;
 
-public class Creeper : Enemy, IDamageable
+public class Creeper : Enemy, IDamageable, ITickable
 {
 	//
 	public const float BITE_COOLDOWN = 3f;
 	public const float BITE_RADIUS = 3.0f;  
+	public const int DEFAULT_HEALTH = 10;
 	//
 	public GameObject fireExplosion;
+	public GameObject healthPickup;
 	//
+	private Vector3 _healthBarOriginScale;
 	private float _biteCooldown;
-	private int _health = 10;
+	private int _health;
 	public int Health  // read-write instance property
     {
         get{return _health;}
@@ -18,44 +21,79 @@ public class Creeper : Enemy, IDamageable
     }
 	
 	#region Unity Lifecycle
-	override protected void Awake(){
-		base.Awake();
-		
-	}
 	override protected  void Start () {
-		base.Start();
-		moveSpeed = 3.0f;
-	}
-
-	override protected void LateUpdate (){
-		base.LateUpdate();
+		Initial();
 	}
 
 	override protected void Update () {
-		base.Update();
-		_biteCooldown -= Time.deltaTime;
-		DamagePlayer();
+		Tick();
 	}
 	#endregion
 	
 	
 	#region Actor Attributes
+	void Initial()
+	{
+		base.Start();
+		_healthBarOriginScale = healthBar.transform.localScale;
+		_health = DEFAULT_HEALTH;
+		heightOffset = 0.3f;
+		moveSpeed = 3.0f;
+	}
+	
+	public void Tick()
+	{
+		base.Update();
+		_biteCooldown -= Time.deltaTime;
+		DamagePlayer();
+	}
+	
 	public void DamageTaken(int amount, Vector3 impactDirection, Vector3 impactPosition)
 	{
-		Health -= amount;
-		AnimateBulletImpact(impactDirection, impactPosition);
+		if(!dead)
+		{
+			Health -= amount;
+			UpdateHealthBar();
+			AnimateBulletImpact(impactDirection, impactPosition);
+		}
+		
 		if(Health <= 0)
 		{
 			if(!dead)
 			{
 				ScoreMgr.UpdateKills(ScoreMgr.EnemyType.Creeper, 1);
+				DropPickup();
 				//I LOVE PHYSICS!!
 				animator.enabled = false;
 			}
-			Debug.Log("dead");
+//			Debug.Log("dead");
 			Ragdoll();
 			dead = true;
 		}
+	}
+	
+	void DropPickup()
+	{
+		if(player.Health < 30)
+		{
+			float chance = Random.value;
+			//Debug.Log("Chance: " + chance);
+			if(chance > 0.5f)
+			{
+				GameObject clone = GameObject.Instantiate(healthPickup, this.transform.position, Quaternion.identity) as GameObject;
+			}	
+		}
+	}
+	
+	void UpdateHealthBar()
+	{
+		float scale = (float)Health/ (float) DEFAULT_HEALTH;
+		if(scale < 0f)
+			scale = 0f;
+//		Debug.Log(scale);
+		healthBar.transform.localScale = new Vector3(_healthBarOriginScale.x *scale, 
+													 _healthBarOriginScale.y, 
+													 _healthBarOriginScale.z);
 	}
 	#endregion
 	
@@ -81,10 +119,6 @@ public class Creeper : Enemy, IDamageable
 			{
 				//Make the explosion impact at the bottom of Zunny.
 				Vector3	impactPosition = this.transform.position;
-				//Do physics
-				//this.rigidbody.isKinematic = false;
-				//Explode(impactPosition, 3000.0f, _explosionRadius);	
-				//EffectCreator.Instance.Effect(impactPosition, fireExplosion);
 				
 				Vector3 hitDirection = player.transform.position - this.transform.position;
 				hitDirection.Normalize();

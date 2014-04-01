@@ -50,8 +50,7 @@ public class Rocket : MonoBehaviour {
 	        if (collision.gameObject.tag == "Enemy")
 	        {
 				try{
-					Creeper z = collision.gameObject.GetComponent<Creeper>();
-					z.DamageTaken(WEAPON_POWER, -contact.normal, contact.point);
+					DetermineEnemy(collision, contact);
 					EffectCreator.Instance.Effect(contact.point, _bloodSpray);
 				}catch{
 					Debug.LogError("PlayerWeapon: Shoot: not an enemy");
@@ -60,5 +59,21 @@ public class Rocket : MonoBehaviour {
 	
 	        }
 		}
+	}
+	
+	
+	protected void DetermineEnemy(Collision collision, ContactPoint contact)
+	{
+		IDamageable z;
+		if(collision.gameObject.name == "Creeper(Clone)")
+		{
+			z = collision.gameObject.GetComponent<Creeper>();
+		}
+		else
+		{
+			z = collision.gameObject.GetComponent<Zombie>();
+		}
+		
+		z.DamageTaken(WEAPON_POWER,-contact.normal, contact.point);
 	}
 }
